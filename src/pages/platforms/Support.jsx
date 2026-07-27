@@ -1,0 +1,15 @@
+﻿import React from 'react';
+import PlatformPage from '../PlatformPage';
+
+function Support() {
+  return (
+    <PlatformPage 
+      title="Support"
+      icon="🛠️"
+      description="Get technical support and assistance for all digital platforms used at Covenant University. Submit tickets, get help, and find solutions."
+      color="#e67e22"
+    />
+  );
+}
+
+export default Support;
