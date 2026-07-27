@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 function Dashboard() {
   const navigate = useNavigate();
   
-  // Load modules from localStorage or use default
   const [modules, setModules] = useState(() => {
     const saved = localStorage.getItem('trainingModules');
     if (saved) {
@@ -24,7 +23,6 @@ function Dashboard() {
     return localStorage.getItem('certificateAwarded') === 'true';
   });
 
-  // Save modules to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('trainingModules', JSON.stringify(modules));
   }, [modules]);
@@ -53,18 +51,15 @@ function Dashboard() {
     ));
   };
 
-  // Check if all modules are completed
   const allCompleted = modules.every(m => m.status === 'completed');
   const completedCount = modules.filter(m => m.status === 'completed').length;
   const totalModules = modules.length;
   const overallProgress = Math.round((completedCount / totalModules) * 100);
 
-  // Award certificate when all modules are completed
   useEffect(() => {
     if (allCompleted && !certificate) {
       setCertificate(true);
       localStorage.setItem('certificateAwarded', 'true');
-      // Show certificate popup
       setTimeout(() => {
         alert('🎉 Congratulations! You have completed all training modules!');
       }, 500);
@@ -88,7 +83,6 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      {/* Header */}
       <header className="dashboard-header">
         <div className="header-content">
           <div className="logo-section">
@@ -96,33 +90,32 @@ function Dashboard() {
             <span className="subtitle">Faculty Onboarding</span>
           </div>
           <nav className="nav-links">
-            <Link to="/">Dashboard</Link>
-            <Link to="/moodle">Moodle LMS</Link>
-            <Link to="/turnitin">Turnitin</Link>
-            <Link to="/office365">Office 365</Link>
-            <Link to="/internet-login">Internet Login</Link>
-            <Link to="/grammarly">Grammarly</Link>
-            <Link to="/cu-portal">CU Portal</Link>
-            <Link to="/resources">Resources</Link>
-            <Link to="/support">Support</Link>
+            <Link to="/">🏠 Home</Link>
+            <Link to="/about">ℹ️ About</Link>
+            <Link to="/moodle">📚 Moodle</Link>
+            <Link to="/office365">💼 Office 365</Link>
+            <Link to="/grammarly">✍️ Grammarly</Link>
+            <Link to="/turnitin">🔍 Turnitin</Link>
+            <Link to="/certificate">🎓 Certificate</Link>
+            <Link to="/support">🛠️ Support</Link>
           </nav>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="dashboard-main">
-        {/* Welcome Section */}
         <section className="welcome-section">
           <div className="welcome-text">
-            <h2>Welcome Back 🎉</h2>
-            <p>Faculty Digital Onboarding Portal</p>
-            <p className="sub-text">Complete your onboarding journey and master the digital platforms used across Covenant University.</p>
-            <button className="continue-btn">Continue Learning →</button>
+            <h2>Welcome to CU Onboarding</h2>
+            <p className="sub-text">Your Digital Journey Starts Here</p>
+            <p className="description">Covenant University's comprehensive onboarding portal helps you master all the digital platforms you need for academic success.</p>
+            <div className="welcome-buttons">
+              <button className="continue-btn">Get Started →</button>
+              <button className="learn-btn">Learn More</button>
+            </div>
           </div>
         </section>
 
-        {/* Stats Cards */}
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
@@ -130,6 +123,15 @@ function Dashboard() {
               <div className="stat-info">
                 <h3>Training Modules</h3>
                 <p className="stat-number">{totalModules}</p>
+                <p className="stat-label">Available courses</p>
+              </div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-icon">💻</div>
+              <div className="stat-info">
+                <h3>Platforms</h3>
+                <p className="stat-number">8</p>
+                <p className="stat-label">Digital tools</p>
               </div>
             </div>
             <div className="stat-card">
@@ -137,31 +139,22 @@ function Dashboard() {
               <div className="stat-info">
                 <h3>Completed</h3>
                 <p className="stat-number">{completedCount}</p>
-              </div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-icon">📊</div>
-              <div className="stat-info">
-                <h3>Overall Progress</h3>
-                <p className="stat-number">{overallProgress}%</p>
-                <div className="progress-bar">
-                  <div className="progress-fill" style={{ width: `${overallProgress}%` }}></div>
-                </div>
+                <p className="stat-label">Modules finished</p>
               </div>
             </div>
             <div className="stat-card">
               <div className="stat-icon">🎓</div>
               <div className="stat-info">
                 <h3>Certificate</h3>
-                <p className={`stat-status ${certificate ? 'completed' : 'pending'}`}>
-                  {certificate ? '✅ Awarded' : 'Pending'}
+                <p className={`stat-number ${certificate ? 'certified' : ''}`}>
+                  {certificate ? '🏆 Awarded' : 'Pending'}
                 </p>
+                <p className="stat-label">Status</p>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Certificate Banner */}
         {certificate && (
           <div className="certificate-banner">
             <div className="certificate-content">
@@ -177,7 +170,6 @@ function Dashboard() {
           </div>
         )}
 
-        {/* Modules Grid */}
         <section className="modules-section">
           <div className="modules-header">
             <h3 className="section-title">Training Modules</h3>
