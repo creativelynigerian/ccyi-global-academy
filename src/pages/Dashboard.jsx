@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
@@ -10,12 +10,12 @@ function Dashboard() {
       return JSON.parse(saved);
     }
     return [
-      { id: 1, title: 'Moodle LMS', icon: '📚', status: 'not-started', progress: 0 },
-      { id: 2, title: 'Turnitin', icon: '🔍', status: 'not-started', progress: 0 },
-      { id: 3, title: 'Office 365', icon: '💼', status: 'not-started', progress: 0 },
-      { id: 4, title: 'Internet Login', icon: '🌐', status: 'not-started', progress: 0 },
-      { id: 5, title: 'Grammarly', icon: '✍️', status: 'not-started', progress: 0 },
-      { id: 6, title: 'CU Portal', icon: '🏛️', status: 'not-started', progress: 0 },
+      { id: 1, title: 'Moodle LMS', icon: '??', status: 'not-started', progress: 0 },
+      { id: 2, title: 'Turnitin', icon: '??', status: 'not-started', progress: 0 },
+      { id: 3, title: 'Office 365', icon: '??', status: 'not-started', progress: 0 },
+      { id: 4, title: 'Internet Login', icon: '??', status: 'not-started', progress: 0 },
+      { id: 5, title: 'Grammarly', icon: '??', status: 'not-started', progress: 0 },
+      { id: 6, title: 'CU Portal', icon: '???', status: 'not-started', progress: 0 },
     ];
   });
 
@@ -61,7 +61,7 @@ function Dashboard() {
       setCertificate(true);
       localStorage.setItem('certificateAwarded', 'true');
       setTimeout(() => {
-        alert('🎉 Congratulations! You have completed all training modules!');
+        alert('?? Congratulations! You have completed all training modules!');
       }, 500);
     }
   }, [allCompleted, certificate]);
@@ -86,18 +86,18 @@ function Dashboard() {
       <header className="dashboard-header">
         <div className="header-content">
           <div className="logo-section">
-            <h1>Covenant University</h1>
-            <span className="subtitle">Faculty Onboarding</span>
+            <h1>CCYI Global Academy</h1>
+            <span className="subtitle">Learning Platform</span>
           </div>
           <nav className="nav-links">
-            <Link to="/">🏠 Home</Link>
-            <Link to="/about">ℹ️ About</Link>
-            <Link to="/moodle">📚 Moodle</Link>
-            <Link to="/office365">💼 Office 365</Link>
-            <Link to="/grammarly">✍️ Grammarly</Link>
-            <Link to="/turnitin">🔍 Turnitin</Link>
-            <Link to="/certificate">🎓 Certificate</Link>
-            <Link to="/support">🛠️ Support</Link>
+            <Link to="/">?? Home</Link>
+            <Link to="/about">?? About</Link>
+            <Link to="/moodle">?? Moodle</Link>
+            <Link to="/office365">?? Office 365</Link>
+            <Link to="/grammarly">?? Grammarly</Link>
+            <Link to="/turnitin">?? Turnitin</Link>
+            <Link to="/certificate">?? Certificate</Link>
+            <Link to="/support">??? Support</Link>
           </nav>
           <button className="logout-btn" onClick={handleLogout}>Logout</button>
         </div>
@@ -108,9 +108,9 @@ function Dashboard() {
           <div className="welcome-text">
             <h2>Welcome to CU Onboarding</h2>
             <p className="sub-text">Your Digital Journey Starts Here</p>
-            <p className="description">Covenant University's comprehensive onboarding portal helps you master all the digital platforms you need for academic success.</p>
+            <p className="description">CCYI Global Academy's comprehensive onboarding portal helps you master all the digital platforms you need for academic success.</p>
             <div className="welcome-buttons">
-              <button className="continue-btn">Get Started →</button>
+              <button className="continue-btn">Get Started ?</button>
               <button className="learn-btn">Learn More</button>
             </div>
           </div>
@@ -119,7 +119,7 @@ function Dashboard() {
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📋</div>
+              <div className="stat-icon">??</div>
               <div className="stat-info">
                 <h3>Training Modules</h3>
                 <p className="stat-number">{totalModules}</p>
@@ -127,7 +127,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">💻</div>
+              <div className="stat-icon">??</div>
               <div className="stat-info">
                 <h3>Platforms</h3>
                 <p className="stat-number">8</p>
@@ -135,7 +135,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon">?</div>
               <div className="stat-info">
                 <h3>Completed</h3>
                 <p className="stat-number">{completedCount}</p>
@@ -143,11 +143,11 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">🎓</div>
+              <div className="stat-icon">??</div>
               <div className="stat-info">
                 <h3>Certificate</h3>
                 <p className={`stat-number ${certificate ? 'certified' : ''}`}>
-                  {certificate ? '🏆 Awarded' : 'Pending'}
+                  {certificate ? '?? Awarded' : 'Pending'}
                 </p>
                 <p className="stat-label">Status</p>
               </div>
@@ -158,13 +158,13 @@ function Dashboard() {
         {certificate && (
           <div className="certificate-banner">
             <div className="certificate-content">
-              <span className="certificate-icon">🏆</span>
+              <span className="certificate-icon">??</span>
               <div>
-                <h3>🎉 Certificate Awarded!</h3>
+                <h3>?? Certificate Awarded!</h3>
                 <p>You have successfully completed all training modules. Download your certificate below.</p>
               </div>
               <button className="certificate-btn" onClick={() => alert('Downloading certificate...')}>
-                📄 Download Certificate
+                ?? Download Certificate
               </button>
             </div>
           </div>
@@ -173,7 +173,7 @@ function Dashboard() {
         <section className="modules-section">
           <div className="modules-header">
             <h3 className="section-title">Training Modules</h3>
-            <button className="reset-btn" onClick={resetTraining}>↺ Reset Progress</button>
+            <button className="reset-btn" onClick={resetTraining}>? Reset Progress</button>
           </div>
           <div className="modules-grid">
             {modules.map((module) => (
@@ -182,9 +182,9 @@ function Dashboard() {
                 <h4>{module.title}</h4>
                 <div className="module-progress">
                   <span className={`status-badge ${module.status}`}>
-                    {module.status === 'completed' && '✅ Completed'}
-                    {module.status === 'in-progress' && '⏳ In Progress'}
-                    {module.status === 'not-started' && '⭕ Not Started'}
+                    {module.status === 'completed' && '? Completed'}
+                    {module.status === 'in-progress' && '? In Progress'}
+                    {module.status === 'not-started' && '? Not Started'}
                   </span>
                   <div className="mini-progress">
                     <div className="mini-fill" style={{ width: `${module.progress}%` }}></div>
@@ -206,7 +206,7 @@ function Dashboard() {
                       </>
                     )}
                     {module.status === 'completed' && (
-                      <span className="completed-badge">✅ Complete</span>
+                      <span className="completed-badge">? Complete</span>
                     )}
                   </div>
                 </div>

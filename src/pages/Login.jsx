@@ -1,69 +1,163 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Icon from '../components/common/Icon';
+import Logo from '../components/common/Logo';
 
-function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    setError('');
+  // ... (rest of the logic remains the same)
 
-    // Simple validation - replace with real authentication later
-    if (email === 'faculty@covenant.edu' && password === 'password123') {
-      // Store user info in localStorage (simulating a session)
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('userEmail', email);
-      navigate('/');
-    } else {
-      setError('Invalid email or password. Please try again.');
-    }
+  const styles = {
+    // ... (styles remain the same)
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-header">
-          <h1>Covenant University</h1>
-          <p>Faculty Onboarding Portal</p>
+    <div style={styles.container}>
+      <div style={styles.card}>
+        <div style={styles.cardGlow}></div>
+        
+        {/* Logo */}
+        <div style={styles.logo}>
+          <Logo size="large" variant="full" />
         </div>
-        
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="form-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              placeholder="faculty@covenant.edu"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+
+        {/* Welcome */}
+        <div style={styles.welcome}>
+          <h2 style={styles.welcomeTitle}>Welcome Back</h2>
+          <p style={styles.welcomeSub}>Sign in to continue your learning journey</p>
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div style={styles.errorBox}>
+            <Icon name="AlertCircle" size={18} color="#dc2626" />
+            {error}
           </div>
-          
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Email Address</label>
+            <div style={{ position: 'relative' }}>
+              <Icon 
+                name="Mail" 
+                size={18} 
+                color="#9ca3af" 
+                style={{ 
+                  position: 'absolute', 
+                  left: '12px', 
+                  top: '50%', 
+                  transform: 'translateY(-50%)' 
+                }} 
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="faculty@ccyiglobalacademy.com"
+                value={formData.email}
+                onChange={handleChange}
+                style={{ ...styles.input, paddingLeft: '40px' }}
+                // ... rest of input props
+              />
+            </div>
           </div>
-          
-          {error && <div className="error-message">{error}</div>}
-          
-          <button type="submit" className="login-btn">Sign In</button>
+
+          <div style={styles.formGroup}>
+            <label style={styles.label}>Password</label>
+            <div style={{ position: 'relative' }}>
+              <Icon 
+                name="Lock" 
+                size={18} 
+                color="#9ca3af" 
+                style={{ 
+                  position: 'absolute', 
+                  left: '12px', 
+                  top: '50%', 
+                  transform: 'translateY(-50%)' 
+                }} 
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                style={{ ...styles.input, paddingLeft: '40px' }}
+                // ... rest of input props
+              />
+            </div>
+          </div>
+
+          <div style={styles.options}>
+            <label style={styles.checkboxLabel}>
+              <input
+                type="checkbox"
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleChange}
+                style={styles.checkbox}
+              />
+              Remember me
+            </label>
+            <a href="#" style={styles.forgotLink}>
+              Forgot Password?
+            </a>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              ...styles.button,
+              ...(loading ? styles.buttonDisabled : {})
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.target.style.transform = 'translateY(-2px)';
+                e.target.style.boxShadow = '0 10px 30px rgba(79, 70, 229, 0.3)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) {
+                e.target.style.transform = 'translateY(0)';
+                e.target.style.boxShadow = 'none';
+              }
+            }}
+          >
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
         </form>
-        
-        <div className="login-footer">
-          <p>Default: faculty@covenant.edu / password123</p>
+
+        {/* Demo Credentials */}
+        <div style={styles.demoBox}>
+          <p style={styles.demoTitle}>🔑 Demo Credentials</p>
+          <div style={styles.demoContent}>
+            <div style={styles.demoItem}>
+              <span style={styles.demoLabel}>Email: </span>
+              <span style={styles.demoValue}>faculty@ccyiglobalacademy.com</span>
+            </div>
+            <div style={styles.demoItem}>
+              <span style={styles.demoLabel}>Password: </span>
+              <span style={styles.demoValue}>password123</span>
+            </div>
+          </div>
+        </div>
+
+        <div style={styles.footer}>
+          © 2026 CCYI Global Academy. All rights reserved.
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Login;
