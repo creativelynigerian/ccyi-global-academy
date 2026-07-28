@@ -4,6 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 function Dashboard() {
   const navigate = useNavigate();
   
+  // Get user role from localStorage
+  const userRole = localStorage.getItem('userRole') || 'student';
+  const userName = localStorage.getItem('userName') || 'User';
+  
   const [modules, setModules] = useState(() => {
     const saved = localStorage.getItem('trainingModules');
     if (saved) {
@@ -69,6 +73,8 @@ function Dashboard() {
   const handleLogout = () => {
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userEmail');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
     navigate('/login');
   };
 
@@ -80,6 +86,28 @@ function Dashboard() {
       localStorage.removeItem('certificateAwarded');
     }
   };
+
+  // Scroll to modules section
+  const scrollToModules = () => {
+    document.querySelector('.modules-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Navigate to about page
+  const goToAbout = () => {
+    navigate('/about');
+  };
+
+  // Get role badge
+  const getRoleBadge = () => {
+    const roleMap = {
+      superadmin: { label: '👑 Super Admin', color: '#fef3c7', textColor: '#92400e' },
+      manager: { label: '📋 Manager', color: '#dbeafe', textColor: '#1e40af' },
+      student: { label: '👤 Student', color: '#d1fae5', textColor: '#065f46' },
+    };
+    return roleMap[userRole] || roleMap.student;
+  };
+
+  const roleInfo = getRoleBadge();
 
   return (
     <div className="dashboard">
@@ -98,20 +126,37 @@ function Dashboard() {
             <Link to="/turnitin"><i className="fas fa-search"></i> Turnitin</Link>
             <Link to="/certificate"><i className="fas fa-certificate"></i> Certificate</Link>
             <Link to="/support"><i className="fas fa-headset"></i> Support</Link>
+            {(userRole === 'superadmin' || userRole === 'manager') && (
+              <Link to="/admin"><i className="fas fa-user-shield"></i> Admin</Link>
+            )}
           </nav>
-          <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          <div className="header-right">
+            <span className="user-role-badge" style={{
+              background: roleInfo.color,
+              color: roleInfo.textColor,
+              padding: '4px 12px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              fontWeight: '600'
+            }}>
+              {roleInfo.label}
+            </span>
+            <button className="logout-btn" onClick={handleLogout}>Logout</button>
+          </div>
         </div>
       </header>
 
       <main className="dashboard-main">
         <section className="welcome-section">
           <div className="welcome-text">
-            <h2>Welcome to CU Onboarding</h2>
+            <h2>Welcome {userName} 👋</h2>
             <p className="sub-text">Your Digital Journey Starts Here</p>
             <p className="description">CCYI Global Academy's comprehensive onboarding portal helps you master all the digital platforms you need for academic success.</p>
             <div className="welcome-buttons">
-              <button className="continue-btn">Get Started <i className="fas fa-arrow-right"></i></button>
-              <button className="learn-btn">Learn More</button>
+              <button className="continue-btn" onClick={scrollToModules}>
+                Get Started <i className="fas fa-arrow-right"></i>
+              </button>
+              <button className="learn-btn" onClick={goToAbout}>Learn More</button>
             </div>
           </div>
         </section>
@@ -215,6 +260,17 @@ function Dashboard() {
           </div>
         </section>
       </main>
+
+      <footer className="app-footer">
+        <div className="footer-content">
+          <p>Developed & Powered by <strong>CCYI Global Enterprise</strong></p>
+          <p className="footer-contact">
+            <span>📞 <a href="tel:07018327654">07018327654</a></span>
+            <span className="footer-separator">|</span>
+            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -8,6 +8,7 @@ function Turnitin() {
       icon="🔍"
       description="Turnitin is a plagiarism detection tool used to maintain academic integrity. Submit papers, check similarity scores, and receive feedback."
       color="#e74c3c"
+      liveUrl="https://ccyiglobalentwebng.com.ng"
     />
   );
 }
