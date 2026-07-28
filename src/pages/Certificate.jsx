@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Certificate() {
@@ -12,7 +12,7 @@ function Certificate() {
       <Link to="/" className="back-link">? Back to Dashboard</Link>
       
       <div className="certificate-header">
-        <h1>?? Certificate</h1>
+        <h1>Certificate</h1>
         <p>Track your progress and earn your CU Learning Platform Certificate</p>
       </div>
 
@@ -20,11 +20,11 @@ function Certificate() {
         {certificateAwarded ? (
           <div className="certificate-awarded">
             <div className="certificate-badge">
-              <span className="badge-icon">??</span>
+              <span className="badge-icon"></span>
               <h2>Certificate Awarded!</h2>
               <p>Congratulations! You have successfully completed all training modules.</p>
               <button className="download-cert-btn" onClick={() => alert('Downloading your certificate...')}>
-                ?? Download Certificate (PDF)
+                Download Certificate (PDF)
               </button>
             </div>
           </div>
