@@ -104,7 +104,6 @@ function Dashboard() {
 
   const roleInfo = getRoleBadge();
 
-  // Navigation items with icons
   const navItems = [
     { path: '/', label: 'Home', icon: '🏠' },
     { path: '/about', label: 'About', icon: 'ℹ️' },
@@ -208,7 +207,7 @@ function Dashboard() {
         {certificate && (
           <div className="certificate-banner">
             <div className="certificate-content">
-              <span className="certificate-icon">🏆</span>
+              <span className="certificate-icon" style={{ fontSize: '32px' }}>🏆</span>
               <div>
                 <h3>Certificate Awarded!</h3>
                 <p>You have successfully completed all training modules. Download your certificate below.</p>
@@ -232,9 +231,9 @@ function Dashboard() {
                 <h4>{module.title}</h4>
                 <div className="module-progress">
                   <span className={`status-badge ${module.status}`}>
-                    {module.status === 'completed' && 'Completed'}
-                    {module.status === 'in-progress' && 'In Progress'}
-                    {module.status === 'not-started' && 'Not Started'}
+                    {module.status === 'completed' && '✅ Completed'}
+                    {module.status === 'in-progress' && '⏳ In Progress'}
+                    {module.status === 'not-started' && '⭕ Not Started'}
                   </span>
                   <div className="mini-progress">
                     <div className="mini-fill" style={{ width: `${module.progress}%` }}></div>
@@ -256,7 +255,7 @@ function Dashboard() {
                       </>
                     )}
                     {module.status === 'completed' && (
-                      <span className="completed-badge">Complete</span>
+                      <span className="completed-badge">✅ Complete</span>
                     )}
                   </div>
                 </div>

@@ -8,6 +8,8 @@ function Admin() {
   
   const [activeTab, setActiveTab] = useState('dashboard');
   const [editingMode, setEditingMode] = useState(false);
+  
+  // ... existing state declarations ...
   const [modules, setModules] = useState(() => {
     const saved = localStorage.getItem('trainingModules');
     if (saved) {
@@ -46,6 +48,14 @@ function Admin() {
     ];
   });
 
+  // AI Course Creator State
+  const [aiCourseInput, setAiCourseInput] = useState('');
+  const [aiCourseLevel, setAiCourseLevel] = useState('secondary');
+  const [aiCourseSubject, setAiCourseSubject] = useState('');
+  const [aiGeneratedCourses, setAiGeneratedCourses] = useState([]);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [selectedStandard, setSelectedStandard] = useState('CCMAS');
+
   // Mock quiz results data
   const [quizResults, setQuizResults] = useState([
     { id: 1, student: 'John Doe', course: 'OER101', score: 85, maxScore: 100, percentage: 85, grade: 'A', date: '2024-06-15' },
@@ -57,13 +67,117 @@ function Admin() {
 
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [showReportCard, setShowReportCard] = useState(false);
-
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [csvData, setCsvData] = useState('');
 
   const isSuperAdmin = userRole === 'superadmin';
   const isManager = userRole === 'manager';
   const isStudent = userRole === 'student';
+
+  // Subject options based on standard
+  const getSubjects = () => {
+    const subjects = {
+      'CCMAS': ['English', 'Mathematics', 'Science', 'Social Studies', 'Creative Arts', 'Technology'],
+      'WAEC': ['English Language', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Economics', 'Geography', 'History'],
+      'JAMB': ['Use of English', 'Mathematics', 'Physics', 'Chemistry', 'Biology', 'Economics', 'Literature', 'Government']
+    };
+    return subjects[selectedStandard] || subjects['CCMAS'];
+  };
+
+  const getLevels = () => {
+    return ['primary', 'secondary', 'tertiary'];
+  };
+
+  // Generate AI Course
+  const generateAICourse = () => {
+    if (!aiCourseSubject) {
+      alert('Please select a subject.');
+      return;
+    }
+
+    setIsGenerating(true);
+    
+    // Simulate AI generation with realistic course content
+    setTimeout(() => {
+      const courseTemplates = {
+        'Mathematics': {
+          title: `Advanced ${aiCourseSubject} (${selectedStandard})`,
+          description: `This course covers ${aiCourseSubject} concepts aligned with ${selectedStandard} standards for ${aiCourseLevel} education.`,
+          objectives: [
+            'Understand core principles and theories',
+            'Apply concepts to real-world scenarios',
+            'Develop critical thinking skills',
+            'Prepare for standardized assessments'
+          ],
+          topics: ['Introduction', 'Core Concepts', 'Advanced Topics', 'Practical Applications', 'Review and Assessment'],
+          duration: '12 weeks',
+          level: aiCourseLevel,
+          standard: selectedStandard
+        },
+        'English': {
+          title: `Comprehensive ${aiCourseSubject} (${selectedStandard})`,
+          description: `Master ${aiCourseSubject} skills aligned with ${selectedStandard} curriculum standards for ${aiCourseLevel} education.`,
+          objectives: [
+            'Develop strong communication skills',
+            'Enhance reading comprehension',
+            'Master writing techniques',
+            'Prepare for standardized exams'
+          ],
+          topics: ['Grammar', 'Comprehension', 'Writing Skills', 'Literature', 'Exam Preparation'],
+          duration: '12 weeks',
+          level: aiCourseLevel,
+          standard: selectedStandard
+        },
+        'Science': {
+          title: `Integrated ${aiCourseSubject} (${selectedStandard})`,
+          description: `Explore ${aiCourseSubject} concepts aligned with ${selectedStandard} standards for ${aiCourseLevel} education.`,
+          objectives: [
+            'Understand scientific methods',
+            'Apply scientific principles',
+            'Develop analytical skills',
+            'Prepare for practical assessments'
+          ],
+          topics: ['Scientific Method', 'Core Concepts', 'Experiments', 'Applications', 'Review'],
+          duration: '12 weeks',
+          level: aiCourseLevel,
+          standard: selectedStandard
+        }
+      };
+
+      const template = courseTemplates[aiCourseSubject] || courseTemplates['Mathematics'];
+      
+      const newCourse = {
+        id: Date.now(),
+        ...template,
+        subject: aiCourseSubject,
+        generatedAt: new Date().toISOString(),
+        status: 'draft'
+      };
+
+      setAiGeneratedCourses([newCourse, ...aiGeneratedCourses]);
+      setIsGenerating(false);
+      alert(`✅ Course "${newCourse.title}" generated successfully!`);
+    }, 2000);
+  };
+
+  // Save AI generated course to courses list
+  const saveAICourse = (course) => {
+    const newCourse = {
+      id: courses.length + 1,
+      title: course.title,
+      code: `${course.subject.substring(0, 3).toUpperCase()}${Math.floor(100 + Math.random() * 900)}`,
+      instructor: 'AI Generated',
+      enrolled: 0
+    };
+    setCourses([...courses, newCourse]);
+    setAiGeneratedCourses(aiGeneratedCourses.filter(c => c.id !== course.id));
+    alert(`✅ Course "${course.title}" added to your courses!`);
+  };
+
+  // Delete AI generated course
+  const deleteAICourse = (id) => {
+    setAiGeneratedCourses(aiGeneratedCourses.filter(c => c.id !== id));
+  };
 
   useEffect(() => {
     if (isStudent) {
@@ -167,15 +281,12 @@ function Admin() {
     }
   };
 
-  // Get unique students for report card filter
   const students = [...new Set(quizResults.map(r => r.student))];
   
-  // Get student's results
   const getStudentResults = (studentName) => {
     return quizResults.filter(r => r.student === studentName);
   };
 
-  // Calculate student's average
   const getStudentAverage = (studentName) => {
     const results = getStudentResults(studentName);
     if (results.length === 0) return 0;
@@ -183,7 +294,6 @@ function Admin() {
     return Math.round(total / results.length);
   };
 
-  // Get overall grade
   const getOverallGrade = (average) => {
     if (average >= 80) return { grade: 'A', color: '#10b981' };
     if (average >= 70) return { grade: 'B', color: '#3b82f6' };
@@ -193,19 +303,16 @@ function Admin() {
     return { grade: 'F', color: '#dc2626' };
   };
 
-  // View report card for a student
   const viewReportCard = (studentName) => {
     setSelectedStudent(studentName);
     setShowReportCard(true);
   };
 
-  // Close report card
   const closeReportCard = () => {
     setShowReportCard(false);
     setSelectedStudent(null);
   };
 
-  // Get grade color for display
   const getGradeColor = (grade) => {
     switch(grade) {
       case 'A': return '#10b981';
@@ -218,7 +325,6 @@ function Admin() {
     }
   };
 
-  // Render tabs
   const renderTabs = () => {
     const tabs = [
       { id: 'dashboard', label: 'Dashboard', icon: '📊' },
@@ -226,6 +332,7 @@ function Admin() {
       { id: 'courses', label: 'Courses', icon: '📚' },
       { id: 'modules', label: 'Modules', icon: '📋' },
       { id: 'results', label: 'Quiz Results', icon: '📈' },
+      { id: 'ai-courses', label: 'AI Course Creator', icon: '🤖' },
     ];
 
     return (
@@ -239,6 +346,126 @@ function Admin() {
             <span>{tab.icon}</span> {tab.label}
           </button>
         ))}
+      </div>
+    );
+  };
+
+  // Render AI Course Creator Tab
+  const renderAICourseCreator = () => {
+    return (
+      <div className="admin-section">
+        <div className="section-header">
+          <h2>🤖 AI Course Creator</h2>
+          <p style={{ color: '#6b7280', fontSize: '14px' }}>
+            Generate courses aligned with CCMAS, WAEC, and JAMB standards
+          </p>
+        </div>
+
+        <div className="ai-course-creator">
+          <div className="ai-course-form">
+            <div className="form-row">
+              <div className="form-group">
+                <label>Standard</label>
+                <select 
+                  value={selectedStandard} 
+                  onChange={(e) => setSelectedStandard(e.target.value)}
+                  className="ai-select"
+                >
+                  <option value="CCMAS">CCMAS (Basic Education)</option>
+                  <option value="WAEC">WAEC (Senior Secondary)</option>
+                  <option value="JAMB">JAMB (Tertiary Entrance)</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label>Level</label>
+                <select 
+                  value={aiCourseLevel} 
+                  onChange={(e) => setAiCourseLevel(e.target.value)}
+                  className="ai-select"
+                >
+                  <option value="primary">Primary</option>
+                  <option value="secondary">Secondary</option>
+                  <option value="tertiary">Tertiary</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-group">
+                <label>Subject</label>
+                <select 
+                  value={aiCourseSubject} 
+                  onChange={(e) => setAiCourseSubject(e.target.value)}
+                  className="ai-select"
+                >
+                  <option value="">Select a subject</option>
+                  {getSubjects().map(subject => (
+                    <option key={subject} value={subject}>{subject}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="form-group">
+                <label>&nbsp;</label>
+                <button 
+                  className="generate-btn"
+                  onClick={generateAICourse}
+                  disabled={isGenerating || !aiCourseSubject}
+                >
+                  {isGenerating ? '⏳ Generating...' : '🚀 Generate Course'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Generated Courses */}
+          {aiGeneratedCourses.length > 0 && (
+            <div className="generated-courses">
+              <h3>Generated Courses</h3>
+              <div className="generated-courses-grid">
+                {aiGeneratedCourses.map((course) => (
+                  <div key={course.id} className="generated-course-card">
+                    <div className="course-header-info">
+                      <h4>{course.title}</h4>
+                      <span className={`level-badge ${course.level}`}>{course.level}</span>
+                      <span className="standard-badge">{course.standard}</span>
+                    </div>
+                    <p className="course-description">{course.description}</p>
+                    <div className="course-details">
+                      <div className="detail-item">
+                        <strong>Duration:</strong> {course.duration}
+                      </div>
+                      <div className="detail-item">
+                        <strong>Topics:</strong> {course.topics.join(', ')}
+                      </div>
+                    </div>
+                    <div className="course-objectives">
+                      <strong>Objectives:</strong>
+                      <ul>
+                        {course.objectives.map((obj, i) => (
+                          <li key={i}>{obj}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="course-actions">
+                      <button 
+                        className="save-course-btn"
+                        onClick={() => saveAICourse(course)}
+                      >
+                        ✅ Add to Courses
+                      </button>
+                      <button 
+                        className="delete-course-btn"
+                        onClick={() => deleteAICourse(course.id)}
+                      >
+                        🗑️ Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     );
   };
@@ -325,7 +552,7 @@ function Admin() {
     );
   };
 
-  // Render Student Report Card Modal
+  // Render Report Card Modal
   const renderReportCard = () => {
     if (!showReportCard || !selectedStudent) return null;
 
@@ -434,10 +661,8 @@ function Admin() {
           </div>
         </div>
 
-        {/* Tabs */}
         {renderTabs()}
 
-        {/* Tab Content */}
         {activeTab === 'dashboard' && (
           <>
             <div className="admin-stats-grid">
@@ -608,6 +833,7 @@ function Admin() {
         )}
 
         {activeTab === 'results' && renderQuizResults()}
+        {activeTab === 'ai-courses' && renderAICourseCreator()}
 
         {showUploadModal && (
           <div className="modal-overlay">
@@ -630,7 +856,6 @@ function Admin() {
           </div>
         )}
 
-        {/* Report Card Modal */}
         {renderReportCard()}
 
         <footer className="app-footer">
@@ -672,10 +897,8 @@ function Admin() {
           </div>
         </div>
 
-        {/* Tabs */}
         {renderTabs()}
 
-        {/* Tab Content */}
         {activeTab === 'dashboard' && (
           <>
             <div className="admin-stats-grid">
@@ -839,8 +1062,8 @@ function Admin() {
         )}
 
         {activeTab === 'results' && renderQuizResults()}
+        {activeTab === 'ai-courses' && renderAICourseCreator()}
 
-        {/* Report Card Modal */}
         {renderReportCard()}
 
         <footer className="app-footer">
@@ -858,7 +1081,7 @@ function Admin() {
   }
 
   // ========================
-  // STUDENT VIEW (Should not see this)
+  // STUDENT VIEW
   // ========================
   return (
     <div className="admin-page">

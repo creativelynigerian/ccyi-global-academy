@@ -7,7 +7,7 @@ function PlatformPage({ title, icon, description, color, liveUrl }) {
       <Link to="/" className="back-link">← Back to Dashboard</Link>
       
       <div className="platform-header" style={{ borderBottom: `4px solid ${color}` }}>
-        <span className="platform-icon" style={{ fontSize: '28px' }}>{icon}</span>
+        <span className="platform-icon" style={{ fontSize: '28px' }}>{icon || '📚'}</span>
         <h2>{title}</h2>
       </div>
       
