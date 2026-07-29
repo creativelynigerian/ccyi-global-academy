@@ -104,6 +104,22 @@ function Dashboard() {
 
   const roleInfo = getRoleBadge();
 
+  // Navigation items with icons
+  const navItems = [
+    { path: '/', label: 'Home', icon: '🏠' },
+    { path: '/about', label: 'About', icon: 'ℹ️' },
+    { path: '/moodle', label: 'Moodle', icon: '📖' },
+    { path: '/office365', label: 'Office 365', icon: '📧' },
+    { path: '/grammarly', label: 'Grammarly', icon: '✏️' },
+    { path: '/turnitin', label: 'Turnitin', icon: '📋' },
+    { path: '/certificate', label: 'Certificate', icon: '🎓' },
+    { path: '/support', label: 'Support', icon: '🛠️' },
+  ];
+
+  if (userRole === 'superadmin' || userRole === 'manager') {
+    navItems.push({ path: '/admin', label: 'Admin', icon: '⚙️' });
+  }
+
   return (
     <div className="dashboard">
       <header className="dashboard-header">
@@ -113,17 +129,11 @@ function Dashboard() {
             <span className="subtitle">Learning Platform</span>
           </div>
           <nav className="nav-links">
-            <Link to="/">Home</Link>
-            <Link to="/about">About</Link>
-            <Link to="/moodle" style={{ fontWeight: 'bold' }}>Moodle LMS</Link>
-            <Link to="/office365">Office 365</Link>
-            <Link to="/grammarly">Grammarly</Link>
-            <Link to="/turnitin">Turnitin</Link>
-            <Link to="/certificate">Certificate</Link>
-            <Link to="/support">Support</Link>
-            {(userRole === 'superadmin' || userRole === 'manager') && (
-              <Link to="/admin">Admin</Link>
-            )}
+            {navItems.map((item) => (
+              <Link key={item.path} to={item.path}>
+                <span style={{ marginRight: '4px' }}>{item.icon}</span> {item.label}
+              </Link>
+            ))}
           </nav>
           <div className="header-right">
             <span className="user-role-badge" style={{
