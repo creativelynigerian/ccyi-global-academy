@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import About from './pages/About';
 import Certificate from './pages/Certificate';
 import Admin from './pages/Admin';
+import QuizResults from './pages/QuizResults';
 import Moodle from './pages/platforms/Moodle';
 import Turnitin from './pages/platforms/Turnitin';
 import Office365 from './pages/platforms/Office365';
@@ -24,6 +25,7 @@ function App() {
       <Route path="/about" element={<About />} />
       <Route path="/certificate" element={<Certificate />} />
       <Route path="/admin" element={<Admin />} />
+      <Route path="/results" element={<QuizResults />} />
       <Route path="/moodle" element={<Moodle />} />
       <Route path="/turnitin" element={<Turnitin />} />
       <Route path="/office365" element={<Office365 />} />
