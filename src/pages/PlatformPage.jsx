@@ -7,7 +7,7 @@ function PlatformPage({ title, icon, description, color, liveUrl }) {
       <Link to="/" className="back-link">← Back to Dashboard</Link>
       
       <div className="platform-header" style={{ borderBottom: `4px solid ${color}` }}>
-        <span className="platform-icon">{icon}</span>
+        <span className="platform-icon" style={{ fontSize: '32px' }}>{icon}</span>
         <h2>{title}</h2>
       </div>
       
@@ -20,7 +20,7 @@ function PlatformPage({ title, icon, description, color, liveUrl }) {
           
           <div className="platform-actions">
             <button className="btn-primary" onClick={() => alert('Starting training...')}>
-              <i className="fas fa-play"></i> Start Training
+              ▶ Start Training
             </button>
             
             {liveUrl && (
@@ -30,7 +30,7 @@ function PlatformPage({ title, icon, description, color, liveUrl }) {
                 rel="noopener noreferrer" 
                 className="btn-live-platform"
               >
-                <i className="fas fa-external-link-alt"></i> Access the Live Platform
+                🔗 Access the Live Platform
               </a>
             )}
           </div>
