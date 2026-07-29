@@ -1,11 +1,11 @@
-import React from 'react';
+﻿import React from 'react';
 import PlatformPage from '../PlatformPage';
 
 function CU_Portal() {
   return (
     <PlatformPage 
       title="CU Portal"
-      icon="???"
+      icon=""
       description="The CCYI Global Academy Portal provides access to student records, course registration, results, transcripts, and other administrative services."
       color="#8e44ad"
       liveUrl="https://ccyiglobalentwebng.com.ng/lms"

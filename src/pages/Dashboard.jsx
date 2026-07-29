@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 function Dashboard() {
   const navigate = useNavigate();
   
-  // Get user role from localStorage
   const userRole = localStorage.getItem('userRole') || 'student';
   const userName = localStorage.getItem('userName') || 'User';
   
@@ -14,12 +13,12 @@ function Dashboard() {
       return JSON.parse(saved);
     }
     return [
-      { id: 1, title: 'Moodle LMS', icon: '📚', status: 'not-started', progress: 0 },
-      { id: 2, title: 'Turnitin', icon: '🔍', status: 'not-started', progress: 0 },
-      { id: 3, title: 'Office 365', icon: '💼', status: 'not-started', progress: 0 },
-      { id: 4, title: 'Internet Login', icon: '🌐', status: 'not-started', progress: 0 },
-      { id: 5, title: 'Grammarly', icon: '✍️', status: 'not-started', progress: 0 },
-      { id: 6, title: 'CU Portal', icon: '🏛️', status: 'not-started', progress: 0 },
+      { id: 1, title: 'Moodle LMS', icon: '📖', status: 'not-started', progress: 0 },
+      { id: 2, title: 'Turnitin', icon: '📋', status: 'not-started', progress: 0 },
+      { id: 3, title: 'Office 365', icon: '📧', status: 'not-started', progress: 0 },
+      { id: 4, title: 'Internet Login', icon: '🌍', status: 'not-started', progress: 0 },
+      { id: 5, title: 'Grammarly', icon: '✏️', status: 'not-started', progress: 0 },
+      { id: 6, title: 'CU Portal', icon: '🏫', status: 'not-started', progress: 0 },
     ];
   });
 
@@ -58,7 +57,6 @@ function Dashboard() {
   const allCompleted = modules.every(m => m.status === 'completed');
   const completedCount = modules.filter(m => m.status === 'completed').length;
   const totalModules = modules.length;
-  const overallProgress = Math.round((completedCount / totalModules) * 100);
 
   useEffect(() => {
     if (allCompleted && !certificate) {
@@ -97,9 +95,9 @@ function Dashboard() {
 
   const getRoleBadge = () => {
     const roleMap = {
-      superadmin: { label: '👑 Super Admin', color: '#fef3c7', textColor: '#92400e' },
-      manager: { label: '📋 Manager', color: '#dbeafe', textColor: '#1e40af' },
-      student: { label: '👤 Student', color: '#d1fae5', textColor: '#065f46' },
+      superadmin: { label: 'Super Admin', color: '#fef3c7', textColor: '#92400e' },
+      manager: { label: 'Manager', color: '#dbeafe', textColor: '#1e40af' },
+      student: { label: 'Student', color: '#d1fae5', textColor: '#065f46' },
     };
     return roleMap[userRole] || roleMap.student;
   };
@@ -115,16 +113,16 @@ function Dashboard() {
             <span className="subtitle">Learning Platform</span>
           </div>
           <nav className="nav-links">
-            <Link to="/">🏠 Home</Link>
-            <Link to="/about">ℹ️ About</Link>
-            <Link to="/moodle">📚 Moodle</Link>
-            <Link to="/office365">💼 Office 365</Link>
-            <Link to="/grammarly">✍️ Grammarly</Link>
-            <Link to="/turnitin">🔍 Turnitin</Link>
-            <Link to="/certificate">🎓 Certificate</Link>
-            <Link to="/support">🛠️ Support</Link>
+            <Link to="/">Home</Link>
+            <Link to="/about">About</Link>
+            <Link to="/moodle" style={{ fontWeight: 'bold' }}>Moodle LMS</Link>
+            <Link to="/office365">Office 365</Link>
+            <Link to="/grammarly">Grammarly</Link>
+            <Link to="/turnitin">Turnitin</Link>
+            <Link to="/certificate">Certificate</Link>
+            <Link to="/support">Support</Link>
             {(userRole === 'superadmin' || userRole === 'manager') && (
-              <Link to="/admin">👑 Admin</Link>
+              <Link to="/admin">Admin</Link>
             )}
           </nav>
           <div className="header-right">
@@ -161,7 +159,7 @@ function Dashboard() {
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon">📚</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>📚</div>
               <div className="stat-info">
                 <h3>Training Modules</h3>
                 <p className="stat-number">{totalModules}</p>
@@ -169,7 +167,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">💻</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>💻</div>
               <div className="stat-info">
                 <h3>Platforms</h3>
                 <p className="stat-number">8</p>
@@ -177,7 +175,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">✅</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>✅</div>
               <div className="stat-info">
                 <h3>Completed</h3>
                 <p className="stat-number">{completedCount}</p>
@@ -185,11 +183,11 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon">🏆</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>🏆</div>
               <div className="stat-info">
                 <h3>Certificate</h3>
                 <p className={`stat-number ${certificate ? 'certified' : ''}`}>
-                  {certificate ? '🎓 Awarded' : 'Pending'}
+                  {certificate ? 'Awarded' : 'Pending'}
                 </p>
                 <p className="stat-label">Status</p>
               </div>
@@ -202,11 +200,11 @@ function Dashboard() {
             <div className="certificate-content">
               <span className="certificate-icon">🏆</span>
               <div>
-                <h3>🎉 Certificate Awarded!</h3>
+                <h3>Certificate Awarded!</h3>
                 <p>You have successfully completed all training modules. Download your certificate below.</p>
               </div>
               <button className="certificate-btn" onClick={() => alert('Downloading certificate...')}>
-                📄 Download Certificate
+                Download Certificate
               </button>
             </div>
           </div>
@@ -215,18 +213,18 @@ function Dashboard() {
         <section className="modules-section">
           <div className="modules-header">
             <h3 className="section-title">Training Modules</h3>
-            <button className="reset-btn" onClick={resetTraining}>🔄 Reset Progress</button>
+            <button className="reset-btn" onClick={resetTraining}>Reset Progress</button>
           </div>
           <div className="modules-grid">
             {modules.map((module) => (
               <div key={module.id} className={`module-card ${module.status}`}>
-                <div className="module-icon">{module.icon}</div>
+                <div className="module-icon" style={{ fontSize: '28px' }}>{module.icon}</div>
                 <h4>{module.title}</h4>
                 <div className="module-progress">
                   <span className={`status-badge ${module.status}`}>
-                    {module.status === 'completed' && '✅ Completed'}
-                    {module.status === 'in-progress' && '⏳ In Progress'}
-                    {module.status === 'not-started' && '⭕ Not Started'}
+                    {module.status === 'completed' && 'Completed'}
+                    {module.status === 'in-progress' && 'In Progress'}
+                    {module.status === 'not-started' && 'Not Started'}
                   </span>
                   <div className="mini-progress">
                     <div className="mini-fill" style={{ width: `${module.progress}%` }}></div>
@@ -234,21 +232,21 @@ function Dashboard() {
                   <div className="module-actions">
                     {module.status === 'not-started' && (
                       <button className="module-btn start" onClick={() => handleStartTraining(module.id)}>
-                        ▶ Start Training
+                        Start Training
                       </button>
                     )}
                     {module.status === 'in-progress' && (
                       <>
                         <button className="module-btn progress" onClick={() => handleProgress(module.id, module.progress + 20)}>
-                          ➕ +20% Progress
+                          +20% Progress
                         </button>
                         <button className="module-btn complete" onClick={() => handleCompleteModule(module.id)}>
-                          ✅ Complete Module
+                          Complete Module
                         </button>
                       </>
                     )}
                     {module.status === 'completed' && (
-                      <span className="completed-badge">✅ Complete</span>
+                      <span className="completed-badge">Complete</span>
                     )}
                   </div>
                 </div>
