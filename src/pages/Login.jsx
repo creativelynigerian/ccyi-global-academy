@@ -9,7 +9,6 @@ function Login() {
 
   const users = [
     { email: 'admin@ccyiglobal.com', password: 'admin123', role: 'superadmin', name: 'Super Admin' },
-    { email: 'manager@ccyiglobal.com', password: 'manager123', role: 'manager', name: 'Manager' },
     { email: 'student@ccyiglobal.com', password: 'student123', role: 'student', name: 'Student' },
   ];
 
@@ -26,7 +25,7 @@ function Login() {
       localStorage.setItem('userName', user.name);
       navigate('/');
     } else {
-      setError('Invalid email or password. Please try again.');
+      setError('Invalid email or password.');
     }
   };
 
@@ -34,58 +33,33 @@ function Login() {
     <div className="login-page">
       <div className="login-container">
         <div className="login-card">
-          <div className="login-header">
-            <h1>CCYI Global Academy</h1>
-            <p>Learning Platform</p>
-          </div>
-          
-          <form onSubmit={handleLogin} className="login-form">
+          <h1>🏛️ CCYI GLOBAL ACADEMY PORTAL</h1>
+          <p>Student Learning and Registration Platform</p>
+          <form onSubmit={handleLogin}>
             <div className="form-group">
-              <label>Email Address</label>
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
-            
             <div className="form-group">
-              <label>Password</label>
               <input
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
-            
             {error && <div className="error-message">{error}</div>}
-            
             <button type="submit" className="login-btn">Sign In</button>
           </form>
-          
-          <div className="login-footer">
-            <p><strong>Demo Accounts:</strong></p>
-            <p>admin@ccyiglobal.com / admin123 (Super Admin)</p>
-            <p>manager@ccyiglobal.com / manager123 (Manager)</p>
-            <p>student@ccyiglobal.com / student123 (Student)</p>
-          </div>
+          <p className="demo-credentials">Demo: admin@ccyiglobal.com / admin123</p>
         </div>
       </div>
-      
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>Powered by <strong>CCYI Global Enterprise</strong></p>
-          <p className="footer-contact">
-            <span>📞 <a href="tel:07018327654">07018327654</a></span>
-            <span className="footer-separator">|</span>
-            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -287,3 +287,4 @@ const CoursePreview = ({
 };
 
 export default CoursePreview;
+

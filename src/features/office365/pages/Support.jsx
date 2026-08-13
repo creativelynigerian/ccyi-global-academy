@@ -11,3 +11,4 @@ export default function Support() {
     </div>
   );
 }
+

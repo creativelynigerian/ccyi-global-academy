@@ -1,0 +1,131 @@
+# update-login-redirect.ps1
+Write-Host "🚀 CCYI Portal - Login Redirect Setup" -ForegroundColor Cyan
+Write-Host "=====================================" -ForegroundColor Yellow
+Write-Host ""
+
+# Check if we're in the right directory
+if (-not (Test-Path "package.json")) {
+    Write-Host "❌ Error: package.json not found!" -ForegroundColor Red
+    Write-Host "Please run this script from your project root directory." -ForegroundColor Red
+    exit 1
+}
+
+# Create Login page
+$loginPath = "src/pages/Login.jsx"
+if (-not (Test-Path $loginPath)) {
+    Write-Host "📝 Creating Login page..." -ForegroundColor Green
+    
+    $loginContent = @"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+export default function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    navigate('/dashboard')
+  }
+
+  return (
+    <div className="login-wrapper">
+      <div className="login-container">
+        <h1>🎓 CCYI Global Academy</h1>
+        <p>Student Onboarding Portal</p>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  )
+}
+"@
+    
+    # Create the pages directory if it doesn't exist
+    New-Item -ItemType Directory -Path "src/pages" -Force
+    Set-Content -Path $loginPath -Value $loginContent -Force
+    Write-Host "✅ Created Login page" -ForegroundColor Green
+}
+
+# Update App.jsx
+$appPath = "src/App.jsx"
+if (Test-Path $appPath) {
+    Write-Host "📝 Updating App.jsx..." -ForegroundColor Green
+    
+    $appContent = @"
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import './App.css'
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App
+"@
+    
+    Set-Content -Path $appPath -Value $appContent -Force
+    Write-Host "✅ Updated App.jsx" -ForegroundColor Green
+}
+
+# Update vite.config.js
+$viteConfigPath = "vite.config.js"
+if (Test-Path $viteConfigPath) {
+    Write-Host "⚙️ Updating vite.config.js..." -ForegroundColor Green
+    
+    $viteConfig = @"
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    open: '/login',
+    host: true,
+  }
+})
+"@
+    
+    Set-Content -Path $viteConfigPath -Value $viteConfig -Force
+    Write-Host "✅ Updated vite.config.js" -ForegroundColor Green
+}
+
+# Install react-router-dom
+Write-Host "📦 Installing react-router-dom..." -ForegroundColor Yellow
+npm install react-router-dom
+
+Write-Host ""
+Write-Host "✅ Setup Complete!" -ForegroundColor Green
+Write-Host "=====================================" -ForegroundColor Yellow
+Write-Host ""
+Write-Host "🚀 To start your app:" -ForegroundColor Cyan
+Write-Host "   npm run dev" -ForegroundColor White
+Write-Host ""
+Write-Host "🌐 Your app will open at:" -ForegroundColor Cyan
+Write-Host "   http://localhost:3000/login" -ForegroundColor White

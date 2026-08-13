@@ -375,3 +375,4 @@ const CourseCreatorWizard = ({ courseData, onUpdate, onNext, disciplines }) => {
 };
 
 export default CourseCreatorWizard;
+

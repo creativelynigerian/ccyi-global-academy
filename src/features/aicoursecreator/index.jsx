@@ -279,3 +279,4 @@ const AICourseCreator = () => {
 };
 
 export default AICourseCreator;
+

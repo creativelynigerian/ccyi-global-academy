@@ -123,3 +123,4 @@ const SyllabusGenerator = ({ courseData, onGenerate, onBack }) => {
 };
 
 export default SyllabusGenerator;
+

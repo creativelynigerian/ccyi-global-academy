@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAdmin } from '../context/AdminContext';
-import Logo from '../components/common/Logo';
+import { courses } from '../data/courses';
 
-// ... rest of the code, add Logo in the header
+// --- IMPORT LUCIIDE ICONS HERE (Matching your package.json) ---
+import { 
+  LayoutDashboard, Users, BookOpen, UploadCloud, Settings, 
+  UserPlus, PlusCircle, FileUp, Pencil, Trash2, 
+  LogOut, User, Lock, FolderOpen
+} from 'lucide-react';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { adminUser, editMode, toggleEditMode, logoutAdmin } = useAdmin();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [files, setFiles] = useState([]);
+  
   const [users, setUsers] = useState([
     { id: 1, name: 'Dr. John Smith', email: 'john@covenant.edu', role: 'faculty', status: 'active' },
     { id: 2, name: 'Dr. Mary Johnson', email: 'mary@covenant.edu', role: 'faculty', status: 'active' },
@@ -39,7 +45,10 @@ const AdminDashboard = () => {
       fontSize: '28px',
       fontWeight: 'bold',
       color: '#1f2937',
-      margin: 0
+      margin: 0,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px'
     },
     adminBadge: {
       background: '#4f46e5',
@@ -106,7 +115,10 @@ const AdminDashboard = () => {
       fontWeight: '500',
       color: '#6b7280',
       borderBottom: '2px solid transparent',
-      transition: 'all 0.3s'
+      transition: 'all 0.3s',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '8px'
     },
     tabActive: {
       color: '#2563eb',
@@ -147,7 +159,10 @@ const AdminDashboard = () => {
       fontSize: '18px',
       fontWeight: '600',
       color: '#1f2937',
-      marginBottom: '16px'
+      marginBottom: '16px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '10px'
     },
     table: {
       width: '100%',
@@ -187,7 +202,10 @@ const AdminDashboard = () => {
       cursor: 'pointer',
       fontSize: '13px',
       fontWeight: '500',
-      transition: 'all 0.3s'
+      transition: 'all 0.3s',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px'
     },
     buttonPrimary: {
       background: '#2563eb',
@@ -209,7 +227,10 @@ const AdminDashboard = () => {
       borderRadius: '6px',
       cursor: 'pointer',
       fontSize: '14px',
-      fontWeight: '500'
+      fontWeight: '500',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px'
     },
     uploadArea: {
       border: '2px dashed #d1d5db',
@@ -237,18 +258,18 @@ const AdminDashboard = () => {
       {/* Header */}
       <div style={styles.header}>
         <div style={styles.headerLeft}>
-          <h1 style={styles.title}>🔧 Admin Dashboard</h1>
+          <h1 style={styles.title}><Settings /> Admin Dashboard</h1>
           <span style={styles.adminBadge}>ADMIN</span>
         </div>
         <div style={styles.headerRight}>
-          <span style={{ fontSize: '14px', color: '#6b7280' }}>
-            👋 {adminUser?.name || 'Administrator'}
+          <span style={{ fontSize: '14px', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <User size={16} /> {adminUser?.name || 'Administrator'}
           </span>
           
           {/* Edit Mode Toggle */}
           <div style={styles.editToggle} onClick={toggleEditMode}>
             <span style={styles.editToggleText}>
-              {editMode ? '✏️ Edit Mode ON' : '📝 Edit Mode OFF'}
+              <Lock size={16} /> {editMode ? 'Edit Mode ON' : 'Edit Mode OFF'}
             </span>
             <div style={styles.toggleIndicator}>
               <div style={styles.toggleDot}></div>
@@ -256,7 +277,7 @@ const AdminDashboard = () => {
           </div>
 
           <button style={styles.logoutBtn} onClick={handleLogout}>
-            Logout
+            <LogOut size={16} /> Logout
           </button>
         </div>
       </div>
@@ -267,31 +288,31 @@ const AdminDashboard = () => {
           style={{ ...styles.tab, ...(activeTab === 'dashboard' ? styles.tabActive : {}) }}
           onClick={() => setActiveTab('dashboard')}
         >
-          📊 Dashboard
+          <LayoutDashboard size={18} /> Dashboard
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'users' ? styles.tabActive : {}) }}
           onClick={() => setActiveTab('users')}
         >
-          👥 Users
+          <Users size={18} /> Users
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'courses' ? styles.tabActive : {}) }}
           onClick={() => setActiveTab('courses')}
         >
-          📚 Courses
+          <BookOpen size={18} /> Courses
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'uploads' ? styles.tabActive : {}) }}
           onClick={() => setActiveTab('uploads')}
         >
-          📤 Uploads
+          <UploadCloud size={18} /> Uploads
         </button>
         <button
           style={{ ...styles.tab, ...(activeTab === 'settings' ? styles.tabActive : {}) }}
           onClick={() => setActiveTab('settings')}
         >
-          ⚙️ Settings
+          <Settings size={18} /> Settings
         </button>
       </div>
 
@@ -300,7 +321,7 @@ const AdminDashboard = () => {
         <div>
           <div style={styles.statsGrid}>
             <div style={styles.statCard}>
-              <p style={styles.statValue}>3</p>
+              <p style={styles.statValue}>{users.length}</p>
               <p style={styles.statLabel}>Total Users</p>
             </div>
             <div style={styles.statCard}>
@@ -308,8 +329,8 @@ const AdminDashboard = () => {
               <p style={styles.statLabel}>Uploaded Files</p>
             </div>
             <div style={styles.statCard}>
-              <p style={styles.statValue}>6</p>
-              <p style={styles.statLabel}>Courses</p>
+              <p style={styles.statValue}>{courses.length}</p>
+              <p style={styles.statLabel}>Active Courses</p>
             </div>
             <div style={styles.statCard}>
               <p style={styles.statValue}>{editMode ? 'ON' : 'OFF'}</p>
@@ -318,11 +339,11 @@ const AdminDashboard = () => {
           </div>
 
           <div style={styles.card}>
-            <h3 style={styles.cardTitle}>Quick Actions</h3>
+            <h3 style={styles.cardTitle}><FolderOpen /> Quick Actions</h3>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-              <button style={{ ...styles.button, ...styles.buttonPrimary }}>➕ Add New User</button>
-              <button style={{ ...styles.button, ...styles.buttonPrimary }}>📚 Create Course</button>
-              <button style={{ ...styles.button, ...styles.buttonSuccess }}>📤 Upload Materials</button>
+              <button style={{ ...styles.button, ...styles.buttonPrimary }}><UserPlus size={16} /> Add New User</button>
+              <button style={{ ...styles.button, ...styles.buttonPrimary }}><PlusCircle size={16} /> Create Course</button>
+              <button style={{ ...styles.button, ...styles.buttonSuccess }}><FileUp size={16} /> Upload Materials</button>
             </div>
           </div>
         </div>
@@ -331,7 +352,7 @@ const AdminDashboard = () => {
       {/* Users Tab */}
       {activeTab === 'users' && (
         <div style={styles.card}>
-          <h3 style={styles.cardTitle}>👥 User Management</h3>
+          <h3 style={styles.cardTitle}><Users /> User Management</h3>
           <table style={styles.table}>
             <thead>
               <tr>
@@ -357,8 +378,48 @@ const AdminDashboard = () => {
                     </span>
                   </td>
                   <td style={styles.td}>
-                    <button style={{ ...styles.button, ...styles.buttonPrimary, marginRight: '4px' }}>✏️</button>
-                    <button style={{ ...styles.button, ...styles.buttonDanger }}>🗑️</button>
+                    <button style={{ ...styles.button, ...styles.buttonPrimary, marginRight: '4px' }}><Pencil size={14} /></button>
+                    <button style={{ ...styles.button, ...styles.buttonDanger }}><Trash2 size={14} /></button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Courses Tab - Showing your 19 Courses */}
+      {activeTab === 'courses' && (
+        <div style={styles.card}>
+          <h3 style={styles.cardTitle}><BookOpen /> Course Management ({courses.length} Total)</h3>
+          <table style={styles.table}>
+            <thead>
+              <tr>
+                <th style={styles.th}>#</th>
+                <th style={styles.th}>Course Title</th>
+                <th style={styles.th}>Category</th>
+                <th style={styles.th}>Route Path</th>
+                <th style={styles.th}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {courses.map((course, index) => (
+                <tr key={course.id}>
+                  <td style={styles.td}>{index + 1}</td>
+                  <td style={styles.td}><strong>{course.title}</strong></td>
+                  <td style={styles.td}>
+                    <span style={{
+                      ...styles.statusBadge,
+                      background: '#e0e7ff',
+                      color: '#4338ca'
+                    }}>
+                      {course.category}
+                    </span>
+                  </td>
+                  <td style={styles.td}><code style={{ background: '#f3f4f6', padding: '2px 8px', borderRadius: '4px' }}>{course.path}</code></td>
+                  <td style={styles.td}>
+                    <button style={{ ...styles.button, ...styles.buttonPrimary, marginRight: '4px' }}><Pencil size={14} /></button>
+                    <button style={{ ...styles.button, ...styles.buttonDanger }}><Trash2 size={14} /></button>
                   </td>
                 </tr>
               ))}
@@ -370,9 +431,9 @@ const AdminDashboard = () => {
       {/* Uploads Tab */}
       {activeTab === 'uploads' && (
         <div style={styles.card}>
-          <h3 style={styles.cardTitle}>📤 Upload Course Materials</h3>
+          <h3 style={styles.cardTitle}><UploadCloud /> Upload Course Materials</h3>
           <div style={styles.uploadArea}>
-            <div style={{ fontSize: '48px', marginBottom: '8px' }}>📁</div>
+            <div style={{ fontSize: '48px', marginBottom: '8px', color: '#2563eb' }}><FileUp size={48} /></div>
             <p style={{ fontSize: '16px', fontWeight: '500', color: '#1f2937' }}>Drag and drop files here</p>
             <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '16px' }}>
               or click to browse (PDF, DOC, PPT, MP4, ZIP)
@@ -388,13 +449,13 @@ const AdminDashboard = () => {
               style={{ ...styles.button, ...styles.buttonPrimary }}
               onClick={() => document.getElementById('fileInput').click()}
             >
-              Select Files
+              <FolderOpen size={16} /> Select Files
             </button>
           </div>
 
           {files.length > 0 && (
             <div style={{ marginTop: '16px' }}>
-              <h4 style={{ marginBottom: '8px' }}>Uploaded Files ({files.length})</h4>
+              <h4 style={{ marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}><FolderOpen /> Uploaded Files ({files.length})</h4>
               <table style={styles.table}>
                 <thead>
                   <tr>
@@ -407,11 +468,11 @@ const AdminDashboard = () => {
                 <tbody>
                   {files.map(file => (
                     <tr key={file.id}>
-                      <td style={styles.td}>📄 {file.name}</td>
+                      <td style={styles.td}><FileUp size={16} style={{ marginRight: '6px', color: '#6b7280' }} /> {file.name}</td>
                       <td style={styles.td}>{(file.size / 1024).toFixed(2)} KB</td>
                       <td style={styles.td}>{file.date}</td>
                       <td style={styles.td}>
-                        <button style={{ ...styles.button, ...styles.buttonDanger }}>🗑️</button>
+                        <button style={{ ...styles.button, ...styles.buttonDanger }}><Trash2 size={14} /></button>
                       </td>
                     </tr>
                   ))}
@@ -426,7 +487,7 @@ const AdminDashboard = () => {
       {activeTab === 'settings' && (
         <div>
           <div style={styles.card}>
-            <h3 style={styles.cardTitle}>⚙️ General Settings</h3>
+            <h3 style={styles.cardTitle}><Settings /> General Settings</h3>
             <div style={{ marginBottom: '16px' }}>
               <label style={{ display: 'block', marginBottom: '4px', fontWeight: '500' }}>Platform Name</label>
               <input
@@ -459,7 +520,7 @@ const AdminDashboard = () => {
           </div>
 
           <div style={styles.card}>
-            <h3 style={styles.cardTitle}>🔄 Edit Mode</h3>
+            <h3 style={styles.cardTitle}><Lock /> Edit Mode</h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               <span>Status: <strong>{editMode ? 'ON' : 'OFF'}</strong></span>
               <button
