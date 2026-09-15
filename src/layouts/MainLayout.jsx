@@ -5,137 +5,70 @@ import Logo from '../components/common/Logo';
 
 const MainLayout = () => {
   const navigate = useNavigate();
+  
+  // Get the user role to control the Admin link visibility
+  const userRole = localStorage.getItem('userRole') || 'student';
 
   const handleLogout = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole'); // Important to clear this too!
     navigate('/login');
   };
 
-  const styles = {
-    container: {
-      display: 'flex',
-      height: '100vh',
-      fontFamily: 'Arial, sans-serif'
-    },
-    content: {
-      flex: 1,
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    header: {
-      background: 'white',
-      padding: '12px 24px',
-      borderBottom: '1px solid #e5e7eb',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center'
-    },
-    headerLeft: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '16px'
-    },
-    adminLink: {
-      color: '#4f46e5',
-      textDecoration: 'none',
-      fontSize: '14px',
-      fontWeight: '500',
-      padding: '6px 12px',
-      borderRadius: '6px',
-      background: '#eef2ff',
-      transition: 'all 0.3s'
-    },
-    headerRight: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px'
-    },
-    logoutBtn: {
-      color: '#6b7280',
-      border: 'none',
-      background: 'none',
-      padding: '8px 12px',
-      borderRadius: '8px',
-      cursor: 'pointer',
-      fontSize: '14px',
-      transition: 'all 0.2s'
-    },
-    main: {
-      flex: 1,
-      overflow: 'auto',
-      background: '#f9fafb'
-    },
-    footer: {
-      background: '#002147',
-      color: 'white',
-      padding: '12px 24px',
-      textAlign: 'center',
-      borderTop: '2px solid #fbbf24',
-      flexShrink: 0
-    },
-    footerText: {
-      margin: 0,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      gap: '16px',
-      flexWrap: 'wrap',
-      fontSize: '13px'
-    },
-    footerLink: {
-      color: '#fbbf24',
-      textDecoration: 'none',
-      fontWeight: '500'
-    },
-    footerDivider: {
-      color: '#4b6a8a'
-    }
-  };
-
   return (
-    <div style={styles.container}>
+    <div className="flex h-screen font-sans">
       <Sidebar />
-      <div style={styles.content}>
-        <header style={styles.header}>
-          <div style={styles.headerLeft}>
+      
+      <div className="flex-1 flex flex-col h-screen overflow-hidden bg-gray-50">
+        
+        {/* --- HEADER --- */}
+        <header className="bg-white border-b border-gray-200 px-6 py-3 flex justify-between items-center shadow-sm z-10">
+          <div className="flex items-center gap-4">
             <Logo size="small" variant="text" />
-            <a href="/admin/dashboard" style={styles.adminLink}>
-              🔧 Admin
-            </a>
+            
+            {/* Secure Admin Link - Hidden for students */}
+            {(userRole === 'superadmin' || userRole === 'manager') && (
+              <a 
+                href="/admin/dashboard" 
+                className="text-indigo-600 text-sm font-medium px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 transition-colors flex items-center gap-1.5"
+              >
+                <span>⚙️</span> Admin
+              </a>
+            )}
           </div>
-          <div style={styles.headerRight}>
+
+          <div className="flex items-center gap-3">
             <button
               onClick={handleLogout}
-              style={styles.logoutBtn}
-              onMouseEnter={(e) => {
-                e.target.style.color = '#dc2626';
-                e.target.style.background = '#fef2f2';
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.color = '#6b7280';
-                e.target.style.background = 'none';
-              }}
+              className="text-gray-500 hover:text-red-600 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors text-sm font-medium"
             >
               Logout
             </button>
           </div>
         </header>
-        <main style={styles.main}>
+
+        {/* --- MAIN CONTENT --- */}
+        <main className="flex-1 overflow-y-auto p-6">
           <Outlet />
         </main>
-        <footer style={styles.footer}>
-          <p style={styles.footerText}>
+
+        {/* --- FOOTER --- */}
+        <footer className="bg-[#002147] text-white py-4 px-6 border-t-2 border-yellow-400 flex-shrink-0">
+          <div className="flex justify-center items-center gap-4 flex-wrap text-sm">
             <span>Powered by</span>
-            <a href="#" style={styles.footerLink}>CCYI Global Enterprise</a>
-            <span style={styles.footerDivider}>|</span>
+            <a href="#" className="text-yellow-400 font-medium hover:underline">
+              CCYI Global Enterprise
+            </a>
+            <span className="text-[#4b6a8a]">|</span>
             <span>📞 07018327021</span>
-            <span style={styles.footerDivider}>|</span>
-            <a href="mailto:ceoccyige@gmail.com" style={styles.footerLink}>
+            <span className="text-[#4b6a8a]">|</span>
+            <a href="mailto:ceoccyige@gmail.com" className="text-yellow-400 font-medium hover:underline">
               📧 ceoccyige@gmail.com
             </a>
-          </p>
+          </div>
         </footer>
+
       </div>
     </div>
   );

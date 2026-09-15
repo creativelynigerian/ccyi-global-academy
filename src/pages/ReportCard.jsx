@@ -26,13 +26,19 @@ function ReportCard() {
 
         // Get all courses
         const coursesData = await moodleApi.getCourses();
-        setCourses(coursesData);
+        let coursesArray = [];
+        if (Array.isArray(coursesData)) {
+          coursesArray = coursesData;
+        } else if (coursesData && typeof coursesData === 'object') {
+          coursesArray = coursesData.courses || [];
+        }
+        setCourses(coursesArray);
 
         // Fetch grades for each student in each course
         const allGrades = {};
         for (const student of studentsList) {
           allGrades[student.id] = {};
-          for (const course of coursesData) {
+          for (const course of coursesArray) {
             try {
               const gradeData = await moodleApi.getUserGrades(course.id, student.id);
               allGrades[student.id][course.id] = gradeData;
@@ -51,7 +57,6 @@ function ReportCard() {
     fetchAllData();
   }, []);
 
-  // Calculate overall average for a student across all courses
   const calculateOverallAverage = (studentId) => {
     const studentGrades = grades[studentId] || {};
     let total = 0;
@@ -82,7 +87,6 @@ function ReportCard() {
     return count > 0 ? Math.round(total / count) : 0;
   };
 
-  // Calculate letter grade
   const getLetterGrade = (percentage) => {
     if (percentage >= 90) return { grade: 'A', color: '#10b981', label: 'Excellent' };
     if (percentage >= 80) return { grade: 'B', color: '#3b82f6', label: 'Very Good' };
@@ -92,14 +96,12 @@ function ReportCard() {
     return { grade: 'F', color: '#dc2626', label: 'Fail' };
   };
 
-  // Get grades for a specific student in a specific course
   const getStudentCourseGrades = (studentId, courseId) => {
     const courseData = grades[studentId]?.[courseId];
     if (!courseData?.usergrades?.[0]?.gradeitems) return [];
     return courseData.usergrades[0].gradeitems.filter(item => item.itemtype !== 'course');
   };
 
-  // Calculate course total
   const calculateCourseTotal = (studentId, courseId) => {
     const items = getStudentCourseGrades(studentId, courseId);
     let total = 0;
@@ -157,7 +159,6 @@ function ReportCard() {
         </p>
       </div>
 
-      {/* Student Selector */}
       <div className="report-card-selector">
         <div className="form-group">
           <label>Select Student</label>
@@ -204,7 +205,6 @@ function ReportCard() {
                   </div>
                 </div>
 
-                {/* Course Results */}
                 <div className="course-results">
                   <h4>Course Results</h4>
                   <div className="admin-table-wrapper">
@@ -252,7 +252,6 @@ function ReportCard() {
         </div>
       )}
 
-      {/* Detail Modal */}
       {showDetail && selectedGradeData && (
         <div className="modal-overlay">
           <div className="modal-content modal-large">
@@ -275,17 +274,6 @@ function ReportCard() {
           </div>
         </div>
       )}
-
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>Powered by <strong>CCYI Global Enterprise</strong></p>
-          <p className="footer-contact">
-            <span>📞 <a href="tel:07018327654">07018327654</a></span>
-            <span className="footer-separator">|</span>
-            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 function QuizResults() {
@@ -60,10 +60,10 @@ function QuizResults() {
 
   return (
     <div className="quiz-results-page">
-      <Link to="/" className="back-link">← Back to Dashboard</Link>
+      <Link to="/" className="back-link">? Back to Dashboard</Link>
       
       <div className="results-header">
-        <h1>📊 Quiz Results</h1>
+        <h1>?? Quiz Results</h1>
         <p>View student quiz results and performance</p>
       </div>
 
@@ -158,9 +158,9 @@ function QuizResults() {
         <div className="footer-content">
           <p>Powered by <strong>CCYI Global Enterprise</strong></p>
           <p className="footer-contact">
-            <span>📞 <a href="tel:07018327654">07018327654</a></span>
+            <span>?? <a href="tel:07018327654">07018327654</a></span>
             <span className="footer-separator">|</span>
-            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
+            <span>?? <a href="mailto:ceoccyige@gmail.com">ceoccyige@gmail.com</a></span>
           </p>
         </div>
       </footer>
@@ -169,3 +169,4 @@ function QuizResults() {
 }
 
 export default QuizResults;
+

@@ -1,27 +1,23 @@
-﻿import React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+
 
 function Header() {
   return (
-    <header className="app-header">
-      <div className="header-content">
-        <div className="logo">
-          <Link to="/">
-            <h1>🏛️ CCYI GLOBAL ACADEMY PORTAL</h1>
-            <span>Student Learning and Registration Platform</span>
-          </Link>
-        </div>
-        <div className="header-right">
-          <Link to="/" className="nav-link">Dashboard</Link>
-          <Link to="/office-suite" className="nav-link">Office Suite</Link>
-          <Link to="/course-control" className="nav-link">📚 Course Control</Link>
-          <Link to="/report-card" className="nav-link">📊 Report Card</Link>
-          <Link to="/admin" className="nav-link">⚙️ Admin</Link>
-          <button className="user-btn">👤 User</button>
-        </div>
-      </div>
-    </header>
+    <header className="sticky top-0 z-40 w-full bg-gradient-to-r from-blue-900 to-indigo-900 text-white shadow-lg px-8 py-4 flex items-center justify-between">
+  {/* Update the text color to white so it pops against the dark blue */}
+  <div className="flex items-center gap-3">
+    {/* Replace with your actual logo image tag */}
+    <span className="text-2xl font-bold tracking-wide">CCYI Global Academy</span>
+  </div>
+  
+  {/* Your nav links go here... */}
+  <nav className="hidden md:flex items-center gap-6 text-white font-medium">
+     {/* ... your links ... */}
+  </nav>
+</header>
   );
 }
 
 export default Header;
+

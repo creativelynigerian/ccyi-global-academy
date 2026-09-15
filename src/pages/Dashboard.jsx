@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 function Dashboard() {
@@ -13,12 +13,12 @@ function Dashboard() {
       return JSON.parse(saved);
     }
     return [
-      { id: 1, title: 'Moodle LMS', icon: '📖', status: 'not-started', progress: 0 },
-      { id: 2, title: 'Turnitin', icon: '📋', status: 'not-started', progress: 0 },
-      { id: 3, title: 'Office 365', icon: '📧', status: 'not-started', progress: 0 },
-      { id: 4, title: 'Internet Login', icon: '🌍', status: 'not-started', progress: 0 },
-      { id: 5, title: 'Grammarly', icon: '✏️', status: 'not-started', progress: 0 },
-      { id: 6, title: 'CU Portal', icon: '🏫', status: 'not-started', progress: 0 },
+      { id: 1, title: 'Moodle LMS', icon: '??', status: 'not-started', progress: 0 },
+      { id: 2, title: 'Turnitin', icon: '??', status: 'not-started', progress: 0 },
+      { id: 3, title: 'Office 365', icon: '??', status: 'not-started', progress: 0 },
+      { id: 4, title: 'Internet Login', icon: '??', status: 'not-started', progress: 0 },
+      { id: 5, title: 'Grammarly', icon: '??', status: 'not-started', progress: 0 },
+      { id: 6, title: 'CU Portal', icon: '??', status: 'not-started', progress: 0 },
     ];
   });
 
@@ -63,7 +63,7 @@ function Dashboard() {
       setCertificate(true);
       localStorage.setItem('certificateAwarded', 'true');
       setTimeout(() => {
-        alert('🎉 Congratulations! You have completed all training modules!');
+        alert('?? Congratulations! You have completed all training modules!');
       }, 500);
     }
   }, [allCompleted, certificate]);
@@ -105,18 +105,18 @@ function Dashboard() {
   const roleInfo = getRoleBadge();
 
   const navItems = [
-    { path: '/', label: 'Home', icon: '🏠' },
-    { path: '/about', label: 'About', icon: 'ℹ️' },
-    { path: '/moodle', label: 'Moodle', icon: '📖' },
-    { path: '/office365', label: 'Office 365', icon: '📧' },
-    { path: '/grammarly', label: 'Grammarly', icon: '✏️' },
-    { path: '/turnitin', label: 'Turnitin', icon: '📋' },
-    { path: '/certificate', label: 'Certificate', icon: '🎓' },
-    { path: '/support', label: 'Support', icon: '🛠️' },
+    { path: '/', label: 'Home', icon: '??' },
+    { path: '/about', label: 'About', icon: '??' },
+    { path: '/moodle', label: 'Moodle', icon: '??' },
+    { path: '/office365', label: 'Office 365', icon: '??' },
+    { path: '/grammarly', label: 'Grammarly', icon: '??' },
+    { path: '/turnitin', label: 'Turnitin', icon: '??' },
+    { path: '/certificate', label: 'Certificate', icon: '??' },
+    { path: '/support', label: 'Support', icon: '???' },
   ];
 
   if (userRole === 'superadmin' || userRole === 'manager') {
-    navItems.push({ path: '/admin', label: 'Admin', icon: '⚙️' });
+    navItems.push({ path: '/admin', label: 'Admin', icon: '??' });
   }
 
   return (
@@ -153,12 +153,12 @@ function Dashboard() {
       <main className="dashboard-main">
         <section className="welcome-section">
           <div className="welcome-text">
-            <h2>Welcome {userName} 👋</h2>
+            <h2>Welcome {userName} ??</h2>
             <p className="sub-text">Your Digital Journey Starts Here</p>
             <p className="description">CCYI Global Academy's comprehensive onboarding portal helps you master all the digital platforms you need for academic success.</p>
             <div className="welcome-buttons">
               <button className="continue-btn" onClick={scrollToModules}>
-                Get Started →
+                Get Started ?
               </button>
               <button className="learn-btn" onClick={goToAbout}>Learn More</button>
             </div>
@@ -168,7 +168,7 @@ function Dashboard() {
         <section className="stats-section">
           <div className="stats-grid">
             <div className="stat-card">
-              <div className="stat-icon" style={{ fontSize: '28px' }}>📚</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>??</div>
               <div className="stat-info">
                 <h3>Training Modules</h3>
                 <p className="stat-number">{totalModules}</p>
@@ -176,7 +176,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon" style={{ fontSize: '28px' }}>💻</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>??</div>
               <div className="stat-info">
                 <h3>Platforms</h3>
                 <p className="stat-number">8</p>
@@ -184,7 +184,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon" style={{ fontSize: '28px' }}>✅</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>?</div>
               <div className="stat-info">
                 <h3>Completed</h3>
                 <p className="stat-number">{completedCount}</p>
@@ -192,7 +192,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="stat-card">
-              <div className="stat-icon" style={{ fontSize: '28px' }}>🏆</div>
+              <div className="stat-icon" style={{ fontSize: '28px' }}>??</div>
               <div className="stat-info">
                 <h3>Certificate</h3>
                 <p className={`stat-number ${certificate ? 'certified' : ''}`}>
@@ -207,7 +207,7 @@ function Dashboard() {
         {certificate && (
           <div className="certificate-banner">
             <div className="certificate-content">
-              <span className="certificate-icon" style={{ fontSize: '32px' }}>🏆</span>
+              <span className="certificate-icon" style={{ fontSize: '32px' }}>??</span>
               <div>
                 <h3>Certificate Awarded!</h3>
                 <p>You have successfully completed all training modules. Download your certificate below.</p>
@@ -231,9 +231,9 @@ function Dashboard() {
                 <h4>{module.title}</h4>
                 <div className="module-progress">
                   <span className={`status-badge ${module.status}`}>
-                    {module.status === 'completed' && '✅ Completed'}
-                    {module.status === 'in-progress' && '⏳ In Progress'}
-                    {module.status === 'not-started' && '⭕ Not Started'}
+                    {module.status === 'completed' && '? Completed'}
+                    {module.status === 'in-progress' && '? In Progress'}
+                    {module.status === 'not-started' && '? Not Started'}
                   </span>
                   <div className="mini-progress">
                     <div className="mini-fill" style={{ width: `${module.progress}%` }}></div>
@@ -255,7 +255,7 @@ function Dashboard() {
                       </>
                     )}
                     {module.status === 'completed' && (
-                      <span className="completed-badge">✅ Complete</span>
+                      <span className="completed-badge">? Complete</span>
                     )}
                   </div>
                 </div>
@@ -269,9 +269,9 @@ function Dashboard() {
         <div className="footer-content">
           <p>Powered by <strong>CCYI Global Enterprise</strong></p>
           <p className="footer-contact">
-            <span>📞 <a href="tel:07018327654">07018327654</a></span>
+            <span>?? <a href="tel:07018327654">07018327654</a></span>
             <span className="footer-separator">|</span>
-            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
+            <span>?? <a href="mailto:ceoccyige@gmail.com">ceoccyige@gmail.com</a></span>
           </p>
         </div>
       </footer>
@@ -280,3 +280,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

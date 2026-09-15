@@ -1,18 +1,19 @@
 ﻿import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import Header from './Header';
+import Footer from './Footer';
 
 export default function Layout() {
   return (
-    <div style={{ display: 'flex' }}>
-      <Sidebar />
-      <div style={{ 
-        flex: 1, 
-        padding: '20px',
-        marginLeft: '250px', // Adjust based on your sidebar width
-        minHeight: '100vh'
-      }}>
-        <Outlet />
+    <div className="app-layout">
+      <Header />
+      <div className="app-body">
+        <Sidebar />
+        <main className="main-content">
+          <Outlet />
+        </main>
       </div>
+      <Footer />
     </div>
   );
 }

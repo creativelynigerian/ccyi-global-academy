@@ -43,7 +43,6 @@ function CourseControl() {
         if (Array.isArray(coursesData)) {
           coursesArray = coursesData;
         } else if (coursesData && typeof coursesData === 'object') {
-          // If it's an object with a courses property
           coursesArray = coursesData.courses || [];
         }
         console.log('📚 Courses array:', coursesArray);
@@ -73,6 +72,14 @@ function CourseControl() {
   useEffect(() => {
     localStorage.setItem('courseRegistrations', JSON.stringify(registrations));
   }, [registrations]);
+
+  // Get unique categories for filter
+  const categories = ['All', ...new Set(moodleCourses.map(c => c.category || 'Uncategorized'))];
+
+  // Filter courses by category
+  const filteredCourses = filterCategory === 'All' 
+    ? moodleCourses 
+    : moodleCourses.filter(c => (c.category || 'Uncategorized') === filterCategory);
 
   const handleRegister = () => {
     if (!selectedStudent || !selectedCourse) {
@@ -153,14 +160,6 @@ function CourseControl() {
     if (!reg) return 0;
     return reg.progress || 0;
   };
-
-  // Get unique categories for filter
-  const categories = ['All', ...new Set(moodleCourses.map(c => c.category || 'Uncategorized'))];
-
-  // Filter courses by category
-  const filteredCourses = filterCategory === 'All' 
-    ? moodleCourses 
-    : moodleCourses.filter(c => (c.category || 'Uncategorized') === filterCategory);
 
   if (loading) {
     return (
@@ -359,17 +358,6 @@ function CourseControl() {
           </div>
         </div>
       )}
-
-      <footer className="app-footer">
-        <div className="footer-content">
-          <p>Powered by <strong>CCYI Global Enterprise</strong></p>
-          <p className="footer-contact">
-            <span>📞 <a href="tel:07018327654">07018327654</a></span>
-            <span className="footer-separator">|</span>
-            <span>📧 <a href="mailto:ceoccviye@gmail.com">ceoccviye@gmail.com</a></span>
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }

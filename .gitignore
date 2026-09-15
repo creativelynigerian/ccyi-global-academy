@@ -34,3 +34,6 @@ uploads-metadata.json
 .vercel/
 
 
+
+.vercel
+.env*
