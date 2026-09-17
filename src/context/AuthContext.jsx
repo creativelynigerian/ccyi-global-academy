@@ -1,44 +1,55 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+﻿// src/context/AuthContext.jsx
+// Global auth state for the app
 
-const AuthContext = createContext();
+import { createContext, useContext, useEffect, useState } from "react";
+import { onAuthStateChanged, signOut as fbSignOut } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+const AuthContext = createContext(null);
+
+export function AuthProvider({ children }) {
+  const [user, setUser]       = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    
-    if (storedUser && isAuthenticated) {
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+    const unsub = onAuthStateChanged(auth, async (fbUser) => {
+      if (!fbUser) {
+        setUser(null);
+        setProfile(null);
+        setLoading(false);
+        return;
+      }
+      setUser(fbUser);
+      try {
+        const snap = await getDoc(doc(db, "users", fbUser.uid));
+        setProfile(
+          snap.exists()
+            ? { uid: fbUser.uid, ...snap.data() }
+            : { uid: fbUser.uid, role: "student" }
+        );
+      } catch (err) {
+        console.warn("Profile load failed:", err.message);
+        setProfile({ uid: fbUser.uid, role: "student" });
+      } finally {
+        setLoading(false);
+      }
+    });
+    return () => unsub();
   }, []);
 
-  const login = (userData) => {
-    localStorage.setItem('user', JSON.stringify(userData));
-    localStorage.setItem('isAuthenticated', 'true');
-    setUser(userData);
-  };
-
-  const logout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('isAuthenticated');
-    setUser(null);
-  };
+  const logout = () => fbSignOut(auth);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, profile, loading, logout }}>
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export function useAuth() {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error("useAuth must be used inside <AuthProvider>");
+  return ctx;
+}

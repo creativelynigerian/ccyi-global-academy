@@ -1,0 +1,230 @@
+﻿/* =====================================================
+   CCYI Global Academy Portal — Dashboard
+   ===================================================== */
+
+.dashboard-wrapper {
+  min-height: 100vh;
+  background: #f4f6fa;
+}
+
+/* ============ Top bar ============ */
+.dashboard-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.dashboard-topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dashboard-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #1a202c;
+}
+
+.dashboard-logo-icon {
+  font-size: 26px;
+}
+
+.dashboard-logo-text strong {
+  display: block;
+  font-size: 15px;
+  line-height: 1.2;
+}
+
+.dashboard-logo-text small {
+  display: block;
+  font-size: 11px;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard-user-email {
+  font-size: 13px;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.btn-logout {
+  background: #ffffff;
+  color: #2d3748;
+  border: 1px solid #e2e8f0;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-logout:hover {
+  background: #fef2f2;
+  border-color: #fecaca;
+  color: #b91c1c;
+}
+
+/* ============ Hero welcome ============ */
+.dashboard-hero {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  padding: 44px 0 60px;
+}
+
+.dashboard-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.dashboard-hero h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  line-height: 1.2;
+}
+
+.dashboard-hero p {
+  font-size: 15px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* ============ Main ============ */
+.dashboard-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+/* Overlap the hero with cards */
+.dashboard-main.pull-up {
+  margin-top: -30px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-heading h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a202c;
+  margin: 0;
+}
+
+.section-heading .muted {
+  color: #718096;
+  font-size: 13px;
+}
+
+/* ============ Platform grid ============ */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.platform-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.platform-card:hover {
+  transform: translateY(-3px);
+  border-color: #667eea;
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+  text-decoration: none;
+}
+
+.platform-icon {
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f0f1ff;
+}
+
+.platform-card:nth-child(1) .platform-icon { background: #e0edff; }
+.platform-card:nth-child(2) .platform-icon { background: #fff7e0; }
+.platform-card:nth-child(3) .platform-icon { background: #e8f5e9; }
+.platform-card:nth-child(4) .platform-icon { background: #fce7f3; }
+.platform-card:nth-child(5) .platform-icon { background: #ede9fe; }
+.platform-card:nth-child(6) .platform-icon { background: #fef3c7; }
+
+.platform-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.platform-body h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a202c;
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.platform-body p {
+  font-size: 13px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.platform-arrow {
+  color: #a0aec0;
+  align-self: center;
+  font-size: 18px;
+  transition: transform 0.15s, color 0.15s;
+}
+
+.platform-card:hover .platform-arrow {
+  color: #667eea;
+  transform: translateX(4px);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 700px) {
+  .dashboard-hero h1 { font-size: 24px; }
+  .dashboard-user-email { display: none; }
+  .dashboard-topbar-inner { padding: 0 16px; }
+  .dashboard-hero-inner, .dashboard-main { padding-left: 16px; padding-right: 16px; }
+  .platform-grid { grid-template-columns: 1fr; }
+}
